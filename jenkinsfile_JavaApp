@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('code checkout') {
+             steps {
+                 checkout([$class: 'GitSCM',
+                            branches: [[name: 'main']],
+                            userRemoteConfigs: [[url:'https://github.com/rumiarif1009/java_app.git',
+                            credentialsId:'arif-tajul' ]]])
+             }
+        }
+
+
+    stage('unit testing') {
+        steps {
+            sh 'mvn test'
+        }
+    }
+
+    stage('Integration Testing') {
+        steps {
+            sh 'mvn-integration test'
+        }
+    }
+
+    stage('load testing') {
+        steps {
+            sh 'mvn verify'
+        }
+    }    
+  }
+}        
+             
+    
+    
+    
